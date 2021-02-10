@@ -25,7 +25,7 @@ BuildUtils.addModuleDistributionDependencies(project, [BuildUtils.getApiProjectP
                                                        BuildUtils.getPlatformModuleProjectPath(project.gradle, "filecontent"),
                                                        BuildUtils.getPlatformModuleProjectPath(project.gradle, "pipeline"),
                                                        BuildUtils.getPlatformModuleProjectPath(project.gradle, "query"),
-                                                       ":server:modules:mobileAppStudy",
+                                                       ":server:modules:Response",
                                                        BuildUtils.getPlatformModuleProjectPath(project.gradle, "list")])
 
 project.task(

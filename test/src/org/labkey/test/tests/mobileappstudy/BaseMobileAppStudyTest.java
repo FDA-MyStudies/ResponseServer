@@ -113,7 +113,7 @@ public abstract class BaseMobileAppStudyTest extends BaseWebDriverTest implement
 
     protected boolean mobileAppTableExists(String table, String schema) throws CommandException, IOException
     {
-        Connection cn = createDefaultConnection(true);
+        Connection cn = createDefaultConnection();
         SelectRowsCommand selectCmd = new SelectRowsCommand(schema, table);
         selectCmd.setColumns(Arrays.asList("*"));
 
@@ -133,7 +133,7 @@ public abstract class BaseMobileAppStudyTest extends BaseWebDriverTest implement
 
     protected SelectRowsResponse getMobileAppData(String table, String schema)
     {
-        Connection cn = createDefaultConnection(true);
+        Connection cn = createDefaultConnection();
         SelectRowsCommand selectCmd = new SelectRowsCommand(schema, table);
         selectCmd.setColumns(Arrays.asList("*"));
 
@@ -210,6 +210,10 @@ public abstract class BaseMobileAppStudyTest extends BaseWebDriverTest implement
         initTest.setupProjects();
     }
 
+    /**
+     * @deprecated This adds unnecessary dependency between test classes.
+     */
+    @Deprecated
     void setupProjects()
     {
         //Do nothing as default, Tests can override if needed

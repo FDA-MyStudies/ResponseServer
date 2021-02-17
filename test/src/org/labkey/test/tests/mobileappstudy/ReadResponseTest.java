@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.labkey.remoteapi.CommandException;
@@ -26,15 +27,15 @@ import org.labkey.remoteapi.CommandResponse;
 import org.labkey.remoteapi.Connection;
 import org.labkey.remoteapi.query.SelectRowsCommand;
 import org.labkey.remoteapi.query.SelectRowsResponse;
-import org.labkey.test.Locator;
 import org.labkey.test.categories.Git;
 import org.labkey.test.components.mobileappstudy.TokenBatchPopup;
 import org.labkey.test.pages.mobileappstudy.SetupPage;
 import org.labkey.test.pages.mobileappstudy.TokenListPage;
 import org.labkey.test.params.FieldDefinition;
+import org.labkey.test.params.list.IntListDefinition;
+import org.labkey.test.params.list.ListDefinition;
 import org.labkey.test.util.APIUserHelper;
-import org.labkey.test.util.ListHelper;
-import org.labkey.test.util.PortalHelper;
+import org.labkey.test.util.TestDataGenerator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,57 +49,64 @@ import static org.junit.Assert.fail;
 @Category({Git.class})
 public class ReadResponseTest extends BaseMobileAppStudyTest
 {
-    final String PROJECT_NAME = getProjectName();
-    final String PROJECT_STUDY_NAME = "TEST_READRESPONSE_STUDY";
-    final String LIST_DIFF_DATATYPES = "TestListDiffDataTypes";
-    final String LIST_SECOND = "SecondSimpleList";
-    final String LIST_THIRD = "ThirdList";
+    public static final String PROJECT_NAME = "Read Response Test Project";
+    public static final String PROJECT_STUDY_NAME = "TEST_READRESPONSE_STUDY";
+    public static final String LIST_DIFF_DATATYPES = "TestListDiffDataTypes";
+    public static final String LIST_SECOND = "SecondSimpleList";
+    public static final String LIST_THIRD = "ThirdList";
 
-    final String FIRST_STRING_FIELD_VALUE = "This is the string value for participant ";
-    final String SECOND_STRING_FIELD_VALUE = "This is the second string value for participant ";
-    final String THIRD_STRING_FIELD_VALUE = "This is the third string value for participant ";
+    public static final String FIRST_STRING_FIELD_VALUE = "This is the string value for participant ";
+    public static final String SECOND_STRING_FIELD_VALUE = "This is the second string value for participant ";
+    public static final String THIRD_STRING_FIELD_VALUE = "This is the third string value for participant ";
 
-    final String FIRST_MULTILINE_STRING_FIELD = "This is the \r\nfirst\r\nmulti-line for participant $\r\nand here is a new line.";
-    final String SECOND_MULTILINE_STRING_FIELD = "This is the \r\nsecond\r\nmulti-line for participant $\r\nand here is a new line.";
-    final String THIRD_MULTILINE_STRING_FIELD = "This is the \r\nthird\r\nmulti-line for participant $\r\nand here is a new line.";
+    public static final String FIRST_MULTILINE_STRING_FIELD = "This is the \r\nfirst\r\nmulti-line for participant $\r\nand here is a new line.";
+    public static final String SECOND_MULTILINE_STRING_FIELD = "This is the \r\nsecond\r\nmulti-line for participant $\r\nand here is a new line.";
+    public static final String THIRD_MULTILINE_STRING_FIELD = "This is the \r\nthird\r\nmulti-line for participant $\r\nand here is a new line.";
 
-    final String FIRST_FLAG_FIELD = "First flag ";
-    final String SECOND_FLAG_FIELD = "Second flag ";
-    final String THIRD_FLAG_FIELD = "Third flag ";
+    public static final String FIRST_FLAG_FIELD = "First flag ";
+    public static final String SECOND_FLAG_FIELD = "Second flag ";
+    public static final String THIRD_FLAG_FIELD = "Third flag ";
 
-    final String FIRST_MANTISSA = ".0123456789";
-    final String SECOND_MANTISSA = ".22222";
-    final String THIRD_MANTISSA = ".3333";
+    public static final String FIRST_MANTISSA = ".0123456789";
+    public static final String SECOND_MANTISSA = ".22222";
+    public static final String THIRD_MANTISSA = ".3333";
 
-    final String FIRST_DATE = "2017-03-17 11:11:11.000";
-    final String SECOND_DATE = "2017-01-15 08:02:00.000";
-    final String THIRD_DATE = "2016-11-20 14:25:00.000";
+    public static final String FIRST_DATE = "2017-03-17 11:11:11.000";
+    public static final String SECOND_DATE = "2017-01-15 08:02:00.000";
+    public static final String THIRD_DATE = "2016-11-20 14:25:00.000";
 
-    final int FIRST_INT_OFFSET = 5;
-    final int SECOND_INT_OFFSET = 7;
-    final int THIRD_INT_OFFSET = 11;
+    public static final int FIRST_INT_OFFSET = 5;
+    public static final int SECOND_INT_OFFSET = 7;
+    public static final int THIRD_INT_OFFSET = 11;
 
-    final String DESCRIPTION_VALUE_SECOND_LIST = "Description for ";
-    final String DESCRIPTION_VALUE_THIRD_LIST = "This is a description in the third list ";
+    public static final String DESCRIPTION_VALUE_SECOND_LIST = "Description for ";
+    public static final String DESCRIPTION_VALUE_THIRD_LIST = "This is a description in the third list ";
 
-    static ParticipantInfo participantToSkip, participantWithMultipleRow, participantWithOneRow, participantForSql;
-
-    protected final PortalHelper _portalHelper = new PortalHelper(this);
+    private static ParticipantInfo participantToSkip, participantWithMultipleRow, participantWithOneRow, participantForSql;
 
     @Override
     protected String getProjectName()
     {
-        return "Read Response Test Project";
+        return PROJECT_NAME;
     }
 
     @Override
-    void setupProjects()
+    protected void doCleanup(boolean afterTest)
     {
         _containerHelper.deleteProject(PROJECT_NAME, false);
+    }
+
+    @BeforeClass
+    public static void projectSetup() throws Exception
+    {
+        ReadResponseTest initTest = (ReadResponseTest) getCurrentTest();
+        initTest.doProjectSetup();
+    }
+
+    private void doProjectSetup() throws IOException, CommandException
+    {
         _containerHelper.createProject(PROJECT_NAME, "Mobile App Study");
-
         createBatchAndAssignTokens();
-
         setupList();
     }
 
@@ -140,201 +148,171 @@ public class ReadResponseTest extends BaseMobileAppStudyTest
         assignTokens(tokensToAssign, PROJECT_NAME, PROJECT_STUDY_NAME);
     }
 
-    private void setupList()
+    private void setupList() throws IOException, CommandException
     {
         List<ParticipantInfo> participantsInfo = getTokens();
 
-        goToProjectHome();
-
-        log("Create a list with columns for each of the basic data types.");
-        ListHelper.ListColumn participantIdColumn = new ListHelper.ListColumn("participantId", "participantId", ListHelper.ListColumnType.Integer, "");
-        ListHelper.ListColumn stringTypeColumn = new ListHelper.ListColumn("stringField", "stringField", ListHelper.ListColumnType.String, "");
-        ListHelper.ListColumn multiLineTypeColumn = new ListHelper.ListColumn("multiLineField", "multiLineField", ListHelper.ListColumnType.MultiLine, "");
-        ListHelper.ListColumn booleanTypeColumn = new ListHelper.ListColumn("booleanField", "booleanField", ListHelper.ListColumnType.Boolean, "");
-        ListHelper.ListColumn integerTypeColumn = new ListHelper.ListColumn("integerField", "integerField", ListHelper.ListColumnType.Integer, "");
-        ListHelper.ListColumn doubleTypeColumn = new ListHelper.ListColumn("doubleField", "doubleField", ListHelper.ListColumnType.Decimal, "");
-        ListHelper.ListColumn dateTimeTypeColumn = new ListHelper.ListColumn("dateTimeField", "dateTimeField", ListHelper.ListColumnType.DateAndTime, "");
-        ListHelper.ListColumn flagTypeColumn = new ListHelper.ListColumn("flagField", "flagField", ListHelper.ListColumnType.Flag, "");
-        ListHelper.ListColumn userColumn = new ListHelper.ListColumn("user", "user", ListHelper.ListColumnType.Integer, "", new ListHelper.LookupInfo(getProjectName(), "core", "Users").setTableType(FieldDefinition.ColumnType.Integer));
-
-        _listHelper.createList(getProjectName(), LIST_DIFF_DATATYPES, ListHelper.ListColumnType.AutoInteger, "Key", participantIdColumn, stringTypeColumn, multiLineTypeColumn, booleanTypeColumn, integerTypeColumn, doubleTypeColumn, dateTimeTypeColumn, flagTypeColumn, userColumn);
-        clickAndWait(Locator.linkWithText(LIST_DIFF_DATATYPES));
-
-        int index = participantsInfo.size()/2;
-        ReadResponseTest.participantToSkip = new ParticipantInfo(participantsInfo.get(index).getId(), participantsInfo.get(index).getAppToken());
-        log("Not going to put participant: " + ReadResponseTest.participantToSkip.getId() + " (" + ReadResponseTest.participantToSkip.getAppToken() + ") into the list.");
-
-        long participantId;
-        Map<String, String> rowData;
-        String userName = getCurrentUserName();
-
-        for(ParticipantInfo participantInfo : participantsInfo)
-        {
-            if(participantInfo.getId() != ReadResponseTest.participantToSkip.getId())
-            {
-
-                // Convert the id to an int because it will be used in some of the numeric fields below.
-                participantId = participantInfo.getId();
-
-                rowData = new HashMap<>();
-
-                rowData.put("participantId", Long.toString(participantId));
-                rowData.put("stringField", FIRST_STRING_FIELD_VALUE + participantInfo.getId());
-                rowData.put("multiLineField", FIRST_MULTILINE_STRING_FIELD.replace("$", Long.toString(participantId)));
-
-                if ((participantId & 1) == 0)
-                    rowData.put("booleanField", "true");
-                else
-                    rowData.put("booleanField", "false");
-
-                rowData.put("integerField", Long.toString(participantId + FIRST_INT_OFFSET));
-
-                rowData.put("doubleField", participantInfo.getId() + FIRST_MANTISSA);
-
-                rowData.put("dateTimeField", FIRST_DATE);
-
-                rowData.put("flagField", FIRST_FLAG_FIELD + participantInfo.getId());
-
-                rowData.put("user", userName);
-
-                _listHelper.insertNewRow(rowData);
-            }
-        }
-
+        // Flag special participants
+        ReadResponseTest.participantToSkip = new ParticipantInfo(participantsInfo.get(participantsInfo.size()/2).getId(), participantsInfo.get(
+            participantsInfo.size()/2).getAppToken());
         ReadResponseTest.participantWithMultipleRow = new ParticipantInfo(participantsInfo.get(0).getId(), participantsInfo.get(0).getAppToken());
-
-        log("Now add a few more rows in the list for participant: " + ReadResponseTest.participantWithMultipleRow.getId() + " (" + ReadResponseTest.participantWithMultipleRow.getAppToken() + "). This is the only participant with multiple rows in the list.");
-
-        participantId = ReadResponseTest.participantWithMultipleRow.getId();
-
-        rowData = new HashMap<>();
-        rowData.put("participantId", Long.toString(participantId));
-        rowData.put("stringField", SECOND_STRING_FIELD_VALUE + ReadResponseTest.participantWithMultipleRow.getId());
-        rowData.put("multiLineField", SECOND_MULTILINE_STRING_FIELD.replace("$", Long.toString(participantId)));
-        rowData.put("booleanField", "true");
-        rowData.put("integerField", Long.toString(participantId + SECOND_INT_OFFSET));
-        rowData.put("doubleField", ReadResponseTest.participantWithMultipleRow.getId() + SECOND_MANTISSA);
-        rowData.put("dateTimeField", SECOND_DATE);
-        rowData.put("flagField", SECOND_FLAG_FIELD + ReadResponseTest.participantWithMultipleRow.getId());
-        rowData.put("user", userName);
-        _listHelper.insertNewRow(rowData);
-
-        rowData = new HashMap<>();
-        rowData.put("participantId", Long.toString(participantId));
-        rowData.put("stringField", THIRD_STRING_FIELD_VALUE + ReadResponseTest.participantWithMultipleRow.getId());
-        rowData.put("multiLineField", THIRD_MULTILINE_STRING_FIELD.replace("$", Long.toString(participantId)));
-        rowData.put("booleanField", "false");
-        rowData.put("integerField", Long.toString(participantId + THIRD_INT_OFFSET));
-        rowData.put("doubleField", ReadResponseTest.participantWithMultipleRow.getId() + THIRD_MANTISSA);
-        rowData.put("dateTimeField", THIRD_DATE);
-        rowData.put("flagField", THIRD_FLAG_FIELD + ReadResponseTest.participantWithMultipleRow.getId());
-        rowData.put("user", userName);
-        _listHelper.insertNewRow(rowData);
-
         ReadResponseTest.participantWithOneRow = new ParticipantInfo(participantsInfo.get(1).getId(), participantsInfo.get(1).getAppToken());
 
         // Nothing particularly special about this participant, except that their integerField value will be the same as participantWithMultipleRow.
         ReadResponseTest.participantForSql = new ParticipantInfo(participantsInfo.get(participantsInfo.size() - 1).getId(), participantsInfo.get(participantsInfo.size() - 1).getAppToken());
 
+
+        log("Create a list with columns for each of the basic data types.");
+        {
+            ListDefinition listDef = new IntListDefinition(LIST_DIFF_DATATYPES, "Key");
+            listDef.setFields(List.of(new FieldDefinition("participantId", FieldDefinition.ColumnType.Integer), new FieldDefinition("stringField", FieldDefinition.ColumnType.String),
+                new FieldDefinition("multiLineField", FieldDefinition.ColumnType.MultiLine), new FieldDefinition("booleanField", FieldDefinition.ColumnType.Boolean),
+                new FieldDefinition("integerField", FieldDefinition.ColumnType.Integer), new FieldDefinition("doubleField", FieldDefinition.ColumnType.Decimal),
+                new FieldDefinition("dateTimeField", FieldDefinition.ColumnType.DateAndTime), new FieldDefinition("flagField", FieldDefinition.ColumnType.Flag),
+                new FieldDefinition("user", FieldDefinition.ColumnType.User)));
+            listDef.getCreateCommand().execute(createDefaultConnection(), getProjectName());
+            TestDataGenerator dataGenerator = listDef.getTestDataGenerator(getProjectName());
+
+            Number userId = whoAmI().getUserId();
+
+            log("Not going to put participant: " + ReadResponseTest.participantToSkip.getId() + " (" + ReadResponseTest.participantToSkip.getAppToken() + ") into the list.");
+            for (ParticipantInfo participantInfo : participantsInfo)
+            {
+                if (participantInfo.getId() != ReadResponseTest.participantToSkip.getId())
+                {
+
+                    // Convert the id to an int because it will be used in some of the numeric fields below.
+                    long participantId = participantInfo.getId();
+
+                    Map<String, Object> rowData = new HashMap<>();
+
+                    rowData.put("participantId", participantId);
+                    rowData.put("stringField", FIRST_STRING_FIELD_VALUE + participantInfo.getId());
+                    rowData.put("multiLineField", FIRST_MULTILINE_STRING_FIELD.replace("$", Long.toString(participantId)));
+
+                    if ((participantId & 1) == 0)
+                        rowData.put("booleanField", "true");
+                    else
+                        rowData.put("booleanField", "false");
+
+                    rowData.put("integerField", Long.toString(participantId + FIRST_INT_OFFSET));
+
+                    rowData.put("doubleField", participantInfo.getId() + FIRST_MANTISSA);
+
+                    rowData.put("dateTimeField", FIRST_DATE);
+
+                    rowData.put("flagField", FIRST_FLAG_FIELD + participantInfo.getId());
+
+                    rowData.put("user", userId);
+
+                    dataGenerator.addCustomRow(rowData);
+                }
+            }
+
+            log("Now add a few more rows in the list for participant: " + ReadResponseTest.participantWithMultipleRow.getId() + " (" + ReadResponseTest.participantWithMultipleRow
+                .getAppToken() + "). This is the only participant with multiple rows in the list.");
+            long participantId = ReadResponseTest.participantWithMultipleRow.getId();
+
+            dataGenerator.addCustomRow(Map.of("participantId", participantId, "stringField", SECOND_STRING_FIELD_VALUE + ReadResponseTest.participantWithMultipleRow.getId(),
+                "multiLineField", SECOND_MULTILINE_STRING_FIELD.replace("$", Long.toString(participantId)),
+                "booleanField", true, "integerField", participantId + SECOND_INT_OFFSET, "doubleField", ReadResponseTest.participantWithMultipleRow.getId() + SECOND_MANTISSA,
+                "dateTimeField", SECOND_DATE, "flagField", SECOND_FLAG_FIELD + ReadResponseTest.participantWithMultipleRow.getId(),
+                "user", userId));
+
+            dataGenerator.addCustomRow(Map.of("participantId", participantId, "stringField", THIRD_STRING_FIELD_VALUE + ReadResponseTest.participantWithMultipleRow.getId(),
+                "multiLineField", THIRD_MULTILINE_STRING_FIELD.replace("$", Long.toString(participantId)),
+                "booleanField", false, "integerField", participantId + THIRD_INT_OFFSET, "doubleField", ReadResponseTest.participantWithMultipleRow.getId() + THIRD_MANTISSA,
+                "dateTimeField", THIRD_DATE, "flagField", THIRD_FLAG_FIELD + ReadResponseTest.participantWithMultipleRow.getId(),
+                "user", userId));
+            dataGenerator.insertRows();
+        }
+
         log("Create a simple second list that has no participantId but will work as a look-up.");
-        goToProjectHome();
-        integerTypeColumn = new ListHelper.ListColumn("integerField", "integerField", ListHelper.ListColumnType.Integer, "");
-        stringTypeColumn = new ListHelper.ListColumn("Description", "Description", ListHelper.ListColumnType.String, "");
+        {
+            ListDefinition listDef = new IntListDefinition(LIST_SECOND, "Key");
+            listDef.setFields(List.of(new FieldDefinition("integerField", FieldDefinition.ColumnType.Integer), new FieldDefinition("Description", FieldDefinition.ColumnType.String)));
+            listDef.getCreateCommand().execute(createDefaultConnection(), getProjectName());
 
-        _listHelper.createList(getProjectName(), LIST_SECOND, ListHelper.ListColumnType.AutoInteger, "Key", integerTypeColumn, stringTypeColumn);
-        clickAndWait(Locator.linkWithText(LIST_SECOND));
+            TestDataGenerator dataGenerator = listDef.getTestDataGenerator(getProjectName());
 
-        log("Now add two rows to " + LIST_SECOND);
+            log("Now add two rows to " + LIST_SECOND);
 
-        long idAsLong;
-        idAsLong = ReadResponseTest.participantWithMultipleRow.getId();
+            long idAsLong;
+            idAsLong = participantWithMultipleRow.getId();
 
-        rowData = new HashMap<>();
-        rowData.put("Description", DESCRIPTION_VALUE_SECOND_LIST + (idAsLong + FIRST_INT_OFFSET));
-        rowData.put("integerField", Long.toString(idAsLong + FIRST_INT_OFFSET));
-        _listHelper.insertNewRow(rowData);
-        rowData = new HashMap<>();
-        rowData.put("Description", DESCRIPTION_VALUE_SECOND_LIST + (idAsLong + SECOND_INT_OFFSET));
-        rowData.put("integerField", Long.toString(idAsLong + SECOND_INT_OFFSET));
-        _listHelper.insertNewRow(rowData);
+            dataGenerator.addCustomRow(Map.of(
+                "Description", DESCRIPTION_VALUE_SECOND_LIST + (idAsLong + FIRST_INT_OFFSET),
+                "integerField", Long.toString(idAsLong + FIRST_INT_OFFSET)
+            ));
+            dataGenerator.addCustomRow(Map.of(
+                "Description", DESCRIPTION_VALUE_SECOND_LIST + (idAsLong + SECOND_INT_OFFSET),
+                "integerField", Long.toString(idAsLong + SECOND_INT_OFFSET)
+            ));
+            dataGenerator.insertRows();
+        }
 
         log("Create a third list that has a participantId column.");
-        goToProjectHome();
-        participantIdColumn = new ListHelper.ListColumn("participantId", "participantId", ListHelper.ListColumnType.Integer, "");
-        integerTypeColumn = new ListHelper.ListColumn("integerField", "integerField", ListHelper.ListColumnType.Integer, "");
-        stringTypeColumn = new ListHelper.ListColumn("Description", "Description", ListHelper.ListColumnType.String, "");
+        {
+            ListDefinition listDef = new IntListDefinition(LIST_THIRD, "Key");
+            listDef.setFields(List.of(new FieldDefinition("participantId", FieldDefinition.ColumnType.Integer), new FieldDefinition("integerField", FieldDefinition.ColumnType.Integer),
+                new FieldDefinition("Description", FieldDefinition.ColumnType.String)));
+            listDef.getCreateCommand().execute(createDefaultConnection(), getProjectName());
 
-        _listHelper.createList(getProjectName(), LIST_THIRD, ListHelper.ListColumnType.AutoInteger, "Key", participantIdColumn, integerTypeColumn, stringTypeColumn);
-        clickAndWait(Locator.linkWithText(LIST_THIRD));
+            TestDataGenerator dataGenerator = listDef.getTestDataGenerator(getProjectName());
 
-        log("Now add a couple of rows to " + LIST_THIRD);
+            log("Now add a couple of rows to " + LIST_THIRD);
 
-        idAsLong = ReadResponseTest.participantWithMultipleRow.getId();
+            long idAsLong = ReadResponseTest.participantWithMultipleRow.getId();
 
-        rowData = new HashMap<>();
-        rowData.put("participantId", Long.toString(idAsLong));
-        rowData.put("Description", DESCRIPTION_VALUE_THIRD_LIST + (idAsLong + SECOND_INT_OFFSET));
-        rowData.put("integerField", Long.toString(idAsLong + SECOND_INT_OFFSET));
-        _listHelper.insertNewRow(rowData);
+            dataGenerator.addCustomRow(Map.of(
+                "participantId", idAsLong,
+                "Description", DESCRIPTION_VALUE_THIRD_LIST + (idAsLong + SECOND_INT_OFFSET),
+                "integerField", idAsLong + SECOND_INT_OFFSET
+            ));
 
-        idAsLong = ReadResponseTest.participantForSql.getId();
-        rowData = new HashMap<>();
-        rowData.put("participantId", Long.toString(idAsLong));
-        rowData.put("Description", DESCRIPTION_VALUE_THIRD_LIST + (idAsLong + FIRST_INT_OFFSET));
-        rowData.put("integerField", Long.toString(idAsLong + FIRST_INT_OFFSET));
-        _listHelper.insertNewRow(rowData);
+            idAsLong = ReadResponseTest.participantForSql.getId();
+            dataGenerator.addCustomRow(Map.of(
+                "participantId", idAsLong,
+                "Description", DESCRIPTION_VALUE_THIRD_LIST + (idAsLong + FIRST_INT_OFFSET),
+                "integerField", idAsLong + FIRST_INT_OFFSET
+            ));
 
-        idAsLong = ReadResponseTest.participantWithOneRow.getId();
-        rowData = new HashMap<>();
-        rowData.put("participantId", Long.toString(idAsLong));
-        rowData.put("Description", DESCRIPTION_VALUE_THIRD_LIST + (idAsLong + FIRST_INT_OFFSET));
-        rowData.put("integerField", Long.toString(idAsLong + FIRST_INT_OFFSET));
-        _listHelper.insertNewRow(rowData);
+            idAsLong = ReadResponseTest.participantWithOneRow.getId();
+            dataGenerator.addCustomRow(Map.of(
+                "participantId", idAsLong,
+                "Description", DESCRIPTION_VALUE_THIRD_LIST + (idAsLong + FIRST_INT_OFFSET),
+                "integerField", idAsLong + FIRST_INT_OFFSET
+            ));
+
+            dataGenerator.insertRows();
+        }
 
         log("Done creating and populating the lists.");
 
-        try
-        {
-            // Connect as a normal admin user and test the row count in each list
+        // Connect as a normal admin user and test the row count in each list
 
-            SelectRowsResponse response = getListInfo(LIST_DIFF_DATATYPES);
-            log(LIST_DIFF_DATATYPES + " has " + response.getRowCount() + " rows");
+        SelectRowsResponse response = getListInfo(LIST_DIFF_DATATYPES);
+        log(LIST_DIFF_DATATYPES + " has " + response.getRowCount() + " rows");
 
-            response = getListInfo(LIST_SECOND);
-            log(LIST_SECOND + " has " + response.getRowCount() + " rows");
+        response = getListInfo(LIST_SECOND);
+        log(LIST_SECOND + " has " + response.getRowCount() + " rows");
 
-            response = getListInfo(LIST_THIRD);
-            log(LIST_THIRD + " has " + response.getRowCount() + " rows");
-        }
-        catch (IOException | CommandException e)
-        {
-            throw new RuntimeException(e);
-        }
+        response = getListInfo(LIST_THIRD);
+        log(LIST_THIRD + " has " + response.getRowCount() + " rows");
     }
 
-    private List<ParticipantInfo> getTokens()
+    private List<ParticipantInfo> getTokens() throws IOException, CommandException
     {
         List<ParticipantInfo> _participantInfos = new ArrayList<>();
 
-        try
-        {
-            Connection cn = createDefaultConnection(false);
-            SelectRowsCommand selectCmd = new SelectRowsCommand("mobileappstudy", "Participant");
-            SelectRowsResponse rowsResponse = selectCmd.execute(cn, getProjectName());
-            log("Row count: " + rowsResponse.getRows().size());
+        Connection cn = createDefaultConnection();
+        SelectRowsCommand selectCmd = new SelectRowsCommand("mobileappstudy", "Participant");
+        SelectRowsResponse rowsResponse = selectCmd.execute(cn, getProjectName());
+        log("Row count: " + rowsResponse.getRows().size());
 
-            for(Map<String, Object> row: rowsResponse.getRows())
-            {
-                _participantInfos.add(new ParticipantInfo(Integer.parseInt(row.get("RowId").toString()), row.get("AppToken").toString()));
-            }
-        }
-        catch(CommandException ce)
+        for(Map<String, Object> row: rowsResponse.getRows())
         {
-            fail("Command exception when running query: " + ce);
-        }
-        catch(IOException ioe)
-        {
-            fail("IO exception when running query: " + ioe);
+            _participantInfos.add(new ParticipantInfo(Integer.parseInt(row.get("RowId").toString()), row.get("AppToken").toString()));
         }
 
         log("Number of participants with AppTokens: " + _participantInfos.size());
@@ -955,7 +933,7 @@ public class ReadResponseTest extends BaseMobileAppStudyTest
     {
         Connection cn;
         SelectRowsCommand selectCmd = new SelectRowsCommand("lists", query);
-        cn = createDefaultConnection(false);
+        cn = createDefaultConnection();
         return selectCmd.execute(cn, getProjectName());
     }
 

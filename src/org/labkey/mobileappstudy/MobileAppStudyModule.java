@@ -41,7 +41,7 @@ import java.util.function.Predicate;
 
 public class MobileAppStudyModule extends DefaultModule
 {
-    public static final String NAME = "MobileAppStudy";
+    public static final String NAME = "Response";
     public static final String SURVEY_METADATA_DIRECTORY = "SurveyMetadataDirectory";
     public static final String METADATA_SERVICE_BASE_URL = "MetadataServiceBaseUrl";
     public static final String METADATA_SERVICE_ACCESS_TOKEN = "MetadataServiceAccessToken";
@@ -75,7 +75,7 @@ public class MobileAppStudyModule extends DefaultModule
     {
         return List.of(
             new SimpleWebPartFactory("Enrollment Token Batches", WebPartFactory.LOCATION_BODY, EnrollmentTokenBatchesWebPart.class, null),
-            new SimpleWebPartFactory("Mobile App Study Setup", WebPartFactory.LOCATION_BODY, StudyConfigWebPart.class, null)
+            new SimpleWebPartFactory("MyStudies Study Setup", WebPartFactory.LOCATION_BODY, StudyConfigWebPart.class, null)
         );
     }
 

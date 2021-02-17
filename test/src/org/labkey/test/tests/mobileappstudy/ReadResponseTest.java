@@ -105,7 +105,7 @@ public class ReadResponseTest extends BaseMobileAppStudyTest
 
     private void doProjectSetup() throws IOException, CommandException
     {
-        _containerHelper.createProject(PROJECT_NAME, "Mobile App Study");
+        _containerHelper.createProject(PROJECT_NAME, "MyStudies Responses");
         createBatchAndAssignTokens();
         setupList();
     }

@@ -62,7 +62,7 @@ public class DynamicSchemaTest extends BaseMobileAppStudyTest
     {
         //Setup a study
         _containerHelper.deleteProject(PROJECT_NAME, false);
-        _containerHelper.createProject(PROJECT_NAME, "Mobile App Study");
+        _containerHelper.createProject(PROJECT_NAME, "MyStudies Responses");
         goToProjectHome(PROJECT_NAME);
         SetupPage setupPage = new SetupPage(this);
         setupPage.getStudySetupWebPart().checkResponseCollection();

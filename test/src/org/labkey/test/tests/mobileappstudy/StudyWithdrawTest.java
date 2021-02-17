@@ -72,7 +72,7 @@ public class StudyWithdrawTest extends BaseMobileAppStudyTest
     void setupProjects()
     {
         _containerHelper.deleteProject(getProjectName(),false);
-        _containerHelper.createProject(getProjectName(), "Mobile App Study");
+        _containerHelper.createProject(getProjectName(), "MyStudies Responses");
         _containerHelper.enableModule("MobileAppStudy");
         goToProjectHome();
         SetupPage setupPage = new SetupPage(this);

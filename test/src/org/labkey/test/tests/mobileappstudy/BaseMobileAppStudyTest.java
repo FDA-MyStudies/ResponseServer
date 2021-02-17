@@ -257,7 +257,7 @@ public abstract class BaseMobileAppStudyTest extends BaseWebDriverTest implement
 
     protected void setupProject(String studyName, String projectName, String surveyName, boolean enableResponseCollection)
     {
-        _containerHelper.createProject(projectName, "Mobile App Study");
+        _containerHelper.createProject(projectName, "MyStudies Responses");
         log("Set a study name.");
         goToProjectHome(projectName);
         SetupPage setupPage = new SetupPage(this);

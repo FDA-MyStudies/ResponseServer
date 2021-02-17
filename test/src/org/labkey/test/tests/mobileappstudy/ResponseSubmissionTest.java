@@ -239,7 +239,7 @@ public class ResponseSubmissionTest extends BaseMobileAppStudyTest
     {
         //Setup a third study that we can delete
         _containerHelper.deleteProject(PROJECT_NAME03, false);
-        _containerHelper.createProject(PROJECT_NAME03, "Mobile App Study");
+        _containerHelper.createProject(PROJECT_NAME03, "MyStudies Responses");
         goToProjectHome(PROJECT_NAME03);
         SetupPage setupPage = new SetupPage(this);
         setupPage.getStudySetupWebPart().checkResponseCollection();

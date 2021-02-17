@@ -74,7 +74,7 @@ public class SharedStudyIdTest extends BaseMobileAppStudyTest
     {
         if (!_containerHelper.getCreatedProjects().contains(project))
             _containerHelper.createProject(project, null);
-        _containerHelper.createSubfolder(project, subfolder, "Mobile App Study");
+        _containerHelper.createSubfolder(project, subfolder, "MyStudies Responses");
 
         String projectPath = project + "/" + subfolder;
 
@@ -110,14 +110,14 @@ public class SharedStudyIdTest extends BaseMobileAppStudyTest
         final String SHORT_NAME = "Shared";
 
         _containerHelper.createProject(PROJECT_NAME01, "Collaboration");
-        _containerHelper.createSubfolder(PROJECT_NAME01, STUDY_FOLDER_NAME,"Mobile App Study");
+        _containerHelper.createSubfolder(PROJECT_NAME01, STUDY_FOLDER_NAME,"MyStudies Responses");
 
         SetupPage setupPage = new SetupPage(this);
         setupPage.getStudySetupWebPart().setShortName(SHORT_NAME);
         setupPage.getStudySetupWebPart().clickSubmit();
 
         _containerHelper.createProject(PROJECT_NAME02, "Collaboration");
-        _containerHelper.createSubfolder(PROJECT_NAME02, STUDY_FOLDER_NAME, "Mobile App Study");
+        _containerHelper.createSubfolder(PROJECT_NAME02, STUDY_FOLDER_NAME, "MyStudies Responses");
 
         setupPage = new SetupPage(this);
         setupPage.getStudySetupWebPart().setShortName(SHORT_NAME);

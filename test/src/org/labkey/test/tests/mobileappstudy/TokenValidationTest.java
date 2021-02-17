@@ -51,11 +51,11 @@ public class TokenValidationTest extends BaseMobileAppStudyTest
     void setupProjects()
     {
         _containerHelper.deleteProject(PROJECT_NAME01, false);
-        _containerHelper.createProject(PROJECT_NAME01, "Mobile App Study");
+        _containerHelper.createProject(PROJECT_NAME01, "MyStudies Responses");
         _containerHelper.deleteProject(PROJECT_NAME02, false);
-        _containerHelper.createProject(PROJECT_NAME02, "Mobile App Study");
+        _containerHelper.createProject(PROJECT_NAME02, "MyStudies Responses");
         _containerHelper.deleteProject(PROJECT_NAME03, false);
-        _containerHelper.createProject(PROJECT_NAME03, "Mobile App Study");
+        _containerHelper.createProject(PROJECT_NAME03, "MyStudies Responses");
 
         goToProjectHome(PROJECT_NAME01);
         SetupPage setupPage = new SetupPage(this);

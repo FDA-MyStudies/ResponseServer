@@ -65,7 +65,7 @@ public class ResponseProcessingTest extends BaseMobileAppStudyTest
     void setupProjects()
     {
         //Setup a study
-        _containerHelper.createProject(PROJECT_NAME01, "Mobile App Study");
+        _containerHelper.createProject(PROJECT_NAME01, "MyStudies Responses");
         goToProjectHome(PROJECT_NAME01);
         SetupPage setupPage = new SetupPage(this);
         setupPage.getStudySetupWebPart().checkResponseCollection();

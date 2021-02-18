@@ -28,7 +28,7 @@ public class StudyConfigWebPart extends JspView<MobileAppStudy>
 {
     public StudyConfigWebPart(ViewContext viewContext)
     {
-        super("/org/labkey/mobileappstudy/view/studySetup.jsp");
+        super("/org/labkey/survey/view/studySetup.jsp");
         setTitle("Study Setup");
 
         MobileAppStudy bean = ResponseManager.get().getStudy(viewContext.getContainer());

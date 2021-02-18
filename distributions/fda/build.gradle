@@ -33,8 +33,8 @@ project.task(
         group: GroupNames.DISTRIBUTION,
         type: ModuleDistribution,
         {ModuleDistribution dist ->
-            dist.subDirName='mobileAppStudy'
+            dist.subDirName='response'
             dist.includeTarGZArchive=true
-            dist.extraFileIdentifier='-mobileAppStudy'
+            dist.extraFileIdentifier='-response'
         }
 )

@@ -1,4 +1,4 @@
-# LabKey mobileAppStudy Module - Implements the Response Server Functionality of the MyStudies System
+# LabKey Response Module - Implements the Response Server Functionality of the MyStudies System
 
 This custom module provides the Response Server functionality and services, including:
 
@@ -9,28 +9,22 @@ This custom module provides the Response Server functionality and services, incl
 - Limited querying of data by the mobile app
 - Providing web analytics, querying, reporting, and visualizations through manual and programmatic methods
 
-This module must be deployed within the LabKey Server platform (version 19.2.x). To build a standalone distribution of the Response Server (i.e., a standard LabKey Server distribution plus the mobileAppStudy module), follow these steps:
+This module must be deployed within the LabKey Server platform (version 21.3.x). To build a standalone distribution of the Response Server (i.e., a standard LabKey Server distribution plus the mobileAppStudy module), follow these steps:
 
-1. Checkout the LabKey Server 19.2.x public Subversion (SVN) and GitHub repositories: [Enlist in the Version Control Project](https://www.labkey.org/Documentation/Archive/19.2/wiki-page.view?name=svn)
-1. Navigate to the root of your SVN working copy (the level right above the "server" directory).
-1. In your settings.gradle file, find the commented out line with this text:
+1. Checkout the LabKey Server 21.3.x public GitHub repositories: [Set Up a Development Machine](https://www.labkey.org/Documentation/wiki-page.view?name=devMachine)
+1. Navigate to the root of your LabKey enlistment.
 
-    ```
-    //include ":server:modules:workflow"
-    ```
-
-1. Underneath this line, add these two lines:
-
+1. Append these two lines to the end of `settings.gradle`:
    ```
-   include ":server:modules:mobileAppStudy"
-   include ":server:modules:mobileAppStudy:distributions:fda"
+   include ":server:modules:Response"
+   include ":server:modules:Response:distributions:fda"
    ```
 
 1. On the command line (again, in the root of your working copy), run one of these commands (use the first command on Linux/OSX and the second on Windows):
 
     ```
-    ./gradlew :server:modules:mobileAppStudy:distributions:fda:dist
-    gradlew :server:modules:mobileAppStudy:distributions:fda:dist
+    ./gradlew :server:modules:Response:distributions:fda:dist
+    gradlew :server:modules:Response:distributions:fda:dist
     ```
 
-1. Look in the directory "dist/mobileAppStudy" for a file whose name ends with "mobileAppStudy-bin.tar.gz". Install this distribution using the [Install LabKey Manually](https://www.labkey.org/Documentation/wiki-page.view?name=manualInstall) instructions.
+1. Look in the directory "dist/response" for a file whose name ends with "response-bin.tar.gz". Install this distribution using the [Install LabKey Manually](https://www.labkey.org/Documentation/wiki-page.view?name=manualInstall) instructions.

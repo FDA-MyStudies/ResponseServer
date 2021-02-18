@@ -73,9 +73,12 @@ public class MobileAppStudyModule extends DefaultModule
     @NotNull
     protected Collection<WebPartFactory> createWebPartFactories()
     {
+        SimpleWebPartFactory studySetupFactory = new SimpleWebPartFactory("MyStudies Study Setup",
+            WebPartFactory.LOCATION_BODY, StudyConfigWebPart.class, null);
+        studySetupFactory.addLegacyNames("Mobile App Study Setup");
         return List.of(
             new SimpleWebPartFactory("Enrollment Token Batches", WebPartFactory.LOCATION_BODY, EnrollmentTokenBatchesWebPart.class, null),
-            new SimpleWebPartFactory("MyStudies Study Setup", WebPartFactory.LOCATION_BODY, StudyConfigWebPart.class, null)
+            studySetupFactory
         );
     }
 

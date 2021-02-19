@@ -91,7 +91,7 @@ public class ConfigAndEnrollTest extends BaseResponseTest
 
         log("Remove the web part,bring it back and validate the study name is still there.");
         setupPage.getStudySetupWebPart().remove();
-        _portalHelper.addWebPart("MyStudies Response Setup");
+        _portalHelper.addWebPart("MyStudies Study Setup");
         setupPage = new SetupPage(this);
 
         log("Validate that the Study Short Name field is still set.");

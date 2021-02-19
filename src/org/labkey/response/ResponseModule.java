@@ -85,7 +85,7 @@ public class ResponseModule extends DefaultModule
     @Override
     protected void init()
     {
-        addController(ResponseController.NAME, ResponseController.class, "mobileAppStudy");
+        addController(ResponseController.NAME, ResponseController.class, "mobileappstudy");
     }
 
     @Override

@@ -964,7 +964,7 @@ public class ResponseController extends SpringActionController
         @Override
         protected HttpView getTabView(ForwardingSettingsForm form, boolean reshow, BindException errors)
         {
-            return new JspView<>("/org/labkey/mobileappstudy/view/forwarderSettings.jsp", form, errors);
+            return new JspView<>("/org/labkey/response/view/forwarderSettings.jsp", form, errors);
         }
 
         @Override

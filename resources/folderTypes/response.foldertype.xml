@@ -1,5 +1,5 @@
 <folderType xmlns="http://labkey.org/data/xml/folderType">
-    <name>MyStudies Responses</name>
+    <name>MyStudies Response</name>
     <description>The default folder type to support MyStudies Response Management and Analysis</description>
     <folderTabs>
         <folderTab>

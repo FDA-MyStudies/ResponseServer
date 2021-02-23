@@ -67,6 +67,7 @@ public abstract class BaseResponseTest extends BaseWebDriverTest implements Post
 {
     protected static final String MOBILEAPP_SCHEMA = "mobileappstudy";
     protected static final String LIST_SCHEMA = "lists";
+    protected static final String FOLDER_TYPE = "MyStudies Response";
     protected final static String BASE_RESULTS = "{\n" +
             "\t\t\"start\": \"2016-09-06T15:48:13.000+0000\",\n" +
             "\t\t\"end\": \"2016-09-06T15:48:45.000+0000\",\n" +
@@ -257,7 +258,7 @@ public abstract class BaseResponseTest extends BaseWebDriverTest implements Post
 
     protected void setupProject(String studyName, String projectName, String surveyName, boolean enableResponseCollection)
     {
-        _containerHelper.createProject(projectName, "MyStudies Responses");
+        _containerHelper.createProject(projectName, FOLDER_TYPE);
         log("Set a study name.");
         goToProjectHome(projectName);
         SetupPage setupPage = new SetupPage(this);

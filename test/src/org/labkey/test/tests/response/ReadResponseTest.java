@@ -105,7 +105,7 @@ public class ReadResponseTest extends BaseResponseTest
 
     private void doProjectSetup() throws IOException, CommandException
     {
-        _containerHelper.createProject(PROJECT_NAME, "MyStudies Responses");
+        _containerHelper.createProject(PROJECT_NAME, FOLDER_TYPE);
         createBatchAndAssignTokens();
         setupList();
     }

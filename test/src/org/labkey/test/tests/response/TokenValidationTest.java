@@ -51,11 +51,11 @@ public class TokenValidationTest extends BaseResponseTest
     void setupProjects()
     {
         _containerHelper.deleteProject(PROJECT_NAME01, false);
-        _containerHelper.createProject(PROJECT_NAME01, "MyStudies Responses");
+        _containerHelper.createProject(PROJECT_NAME01, FOLDER_TYPE);
         _containerHelper.deleteProject(PROJECT_NAME02, false);
-        _containerHelper.createProject(PROJECT_NAME02, "MyStudies Responses");
+        _containerHelper.createProject(PROJECT_NAME02, FOLDER_TYPE);
         _containerHelper.deleteProject(PROJECT_NAME03, false);
-        _containerHelper.createProject(PROJECT_NAME03, "MyStudies Responses");
+        _containerHelper.createProject(PROJECT_NAME03, FOLDER_TYPE);
 
         goToProjectHome(PROJECT_NAME01);
         SetupPage setupPage = new SetupPage(this);

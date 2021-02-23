@@ -72,7 +72,7 @@ public class StudyWithdrawTest extends BaseResponseTest
     void setupProjects()
     {
         _containerHelper.deleteProject(getProjectName(),false);
-        _containerHelper.createProject(getProjectName(), "MyStudies Responses");
+        _containerHelper.createProject(getProjectName(), FOLDER_TYPE);
         _containerHelper.enableModule("Response");
         goToProjectHome();
         SetupPage setupPage = new SetupPage(this);

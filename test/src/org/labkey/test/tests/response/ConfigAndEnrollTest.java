@@ -72,7 +72,7 @@ public class ConfigAndEnrollTest extends BaseResponseTest
         List<String> tokensToAssign = new ArrayList<>();
         SetupPage setupPage;
 
-        _containerHelper.createProject(PROJECT_NAME01, "MyStudies Responses");
+        _containerHelper.createProject(PROJECT_NAME01, FOLDER_TYPE);
         goToProjectHome(PROJECT_NAME01);
 
         setupPage = new SetupPage(this);
@@ -104,7 +104,7 @@ public class ConfigAndEnrollTest extends BaseResponseTest
         setupPage.getStudySetupWebPart().clickSubmit();
 
         log("Create a new project and try to reuse the study name.");
-        _containerHelper.createProject(PROJECT_NAME02, "MyStudies Responses");
+        _containerHelper.createProject(PROJECT_NAME02, FOLDER_TYPE);
         goToProjectHome(PROJECT_NAME02);
 
         setupPage = new SetupPage(this);
@@ -164,7 +164,7 @@ public class ConfigAndEnrollTest extends BaseResponseTest
     {
         final String STUDY_NAME01 = "STUDYNAME01";
 
-        _containerHelper.createProject(PROJECT_NAME03, "MyStudies Responses");
+        _containerHelper.createProject(PROJECT_NAME03, FOLDER_TYPE);
 
         goToProjectHome(PROJECT_NAME03);
         SetupPage setupPage = new SetupPage(this);
@@ -208,7 +208,7 @@ public class ConfigAndEnrollTest extends BaseResponseTest
         List<String> proj01_tokensToAssignBatch03 = new ArrayList<>();
         List<String> proj02_tokensToAssignBatch01 = new ArrayList<>();
 
-        _containerHelper.createProject(PROJECT_NAME04, "MyStudies Responses");
+        _containerHelper.createProject(PROJECT_NAME04, FOLDER_TYPE);
         goToProjectHome(PROJECT_NAME04);
 
         SetupPage setupPage = new SetupPage(this);
@@ -320,7 +320,7 @@ public class ConfigAndEnrollTest extends BaseResponseTest
         validateGridInfo(setupPage, proj01_batchId03, proj01_tokenCount03, Integer.toString(proj01_tokensToAssignBatch03.size()));
 
         log("Now create a second project and validate that tokens from the first project can't be assigned to this project.");
-        _containerHelper.createProject(PROJECT_NAME05, "MyStudies Responses");
+        _containerHelper.createProject(PROJECT_NAME05, FOLDER_TYPE);
         goToProjectHome(PROJECT_NAME05);
 
         setupPage = new SetupPage(this);

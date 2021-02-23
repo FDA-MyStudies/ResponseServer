@@ -62,7 +62,7 @@ public class DynamicSchemaTest extends BaseResponseTest
     {
         //Setup a study
         _containerHelper.deleteProject(PROJECT_NAME, false);
-        _containerHelper.createProject(PROJECT_NAME, "MyStudies Responses");
+        _containerHelper.createProject(PROJECT_NAME, FOLDER_TYPE);
         goToProjectHome(PROJECT_NAME);
         SetupPage setupPage = new SetupPage(this);
         setupPage.getStudySetupWebPart().checkResponseCollection();

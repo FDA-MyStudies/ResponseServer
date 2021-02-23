@@ -12,6 +12,9 @@ This custom module provides the Response Server functionality and services, incl
 This module must be deployed within the LabKey Server platform (version 21.3.x). To build a standalone distribution of the Response Server (i.e., a standard LabKey Server distribution plus the mobileAppStudy module), follow these steps:
 
 1. Checkout the LabKey Server 21.3.x public GitHub repositories: [Set Up a Development Machine](https://www.labkey.org/Documentation/wiki-page.view?name=devMachine)
+
+1. Clone the Response module (this repository) into `server/modules`
+
 1. Navigate to the root of your LabKey enlistment.
 
 1. Append these two lines to the end of `settings.gradle`:

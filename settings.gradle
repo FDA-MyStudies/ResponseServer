@@ -12,6 +12,16 @@ buildscript {
     dependencies {
         classpath "org.labkey.build:gradlePlugins:${gradlePluginsVersion}"
     }
+    // dependencies {
+    //     classpath files("../gradlePlugin/build/libs/gradlePlugin-1.21.0-SNAPSHOT.jar")
+    //     classpath "org.apache.commons:commons-lang3:3.8.1"
+    //     classpath "commons-io:commons-io:2.6"
+    //     classpath "com.yahoo.platform.yui:yuicompressor:2.4.8a"
+    //     classpath "org.apache.httpcomponents:httpclient:4.5.3"
+    //     classpath "org.json:json:20180130"
+    //     classpath "com.fasterxml.jackson.core:jackson-databind:2.9.5"
+    //     classpath "org.ajoberstar.grgit:grgit-gradle:3.1.1"
+    // }
     configurations.all {
         // Check for updates every build for SNAPSHOT dependencies
         resolutionStrategy.cacheChangingModulesFor 0, 'seconds'

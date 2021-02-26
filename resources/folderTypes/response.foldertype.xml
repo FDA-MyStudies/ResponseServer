@@ -1,0 +1,42 @@
+<folderType xmlns="http://labkey.org/data/xml/folderType">
+    <name>MyStudies Response</name>
+    <description>The default folder type to support MyStudies Response Management and Analysis</description>
+    <folderTabs>
+        <folderTab>
+            <name>setup</name>
+            <caption>Setup</caption>
+            <selectors>
+            </selectors>
+            <requiredWebParts>
+            </requiredWebParts>
+            <preferredWebParts>
+                <webPart>
+                    <name>MyStudies Study Setup</name>
+                    <location>body</location>
+                </webPart>
+                <webPart>
+                    <name>Enrollment Token Batches</name>
+                    <location>body</location>
+                </webPart>
+            </preferredWebParts>
+            <permissions>
+                <permission name="org.labkey.api.security.permissions.AdminPermission"/>
+            </permissions>
+        </folderTab>
+        <!--<folderTab>-->
+            <!--<name>surveyResponses</name>-->
+            <!--<caption>Survey Responses</caption>-->
+            <!--<selectors>-->
+            <!--</selectors>-->
+            <!--<requiredWebParts>-->
+            <!--</requiredWebParts>-->
+            <!--<preferredWebParts>-->
+            <!--</preferredWebParts>-->
+        <!--</folderTab>-->
+    </folderTabs>
+    <modules>
+        <moduleName>List</moduleName>
+        <moduleName>Response</moduleName>
+    </modules>
+    <menubarEnabled>true</menubarEnabled>
+</folderType>

@@ -27,7 +27,7 @@ project.tasks.register('copyTagLibsBase') { }
 
 apply plugin: 'org.labkey.base'
 apply plugin: 'java'
-apply plugin: 'org.labkey.module'
+apply plugin: 'org.labkey.build.module'
 
 repositories {
     // this if statement is necessary because the TeamCity artifactory plugin overrides

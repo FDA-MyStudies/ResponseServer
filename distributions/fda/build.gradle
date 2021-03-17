@@ -2,10 +2,6 @@ import org.labkey.gradle.task.ModuleDistribution
 import org.labkey.gradle.util.BuildUtils
 import org.labkey.gradle.util.GroupNames
 
-plugins {
-    id 'org.labkey.build.distribution'
-}
-
 buildscript {
     repositories {
         maven {
@@ -15,6 +11,10 @@ buildscript {
     dependencies {
         classpath "org.labkey.build:gradlePlugins:${gradlePluginsVersion}"
     }
+}
+
+plugins {
+    id 'org.labkey.build.distribution'
 }
 
 BuildUtils.addModuleDistributionDependencies(project, [BuildUtils.getApiProjectPath(project.gradle),

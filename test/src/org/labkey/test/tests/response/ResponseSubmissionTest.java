@@ -48,6 +48,8 @@ public class ResponseSubmissionTest extends BaseResponseTest
     @Override
     void setupProjects()
     {
+        doCleanup(false);
+
         setupProject(STUDY_NAME01, PROJECT_NAME01, SURVEY_NAME, false);
         setupProject(STUDY_NAME02, PROJECT_NAME02, SURVEY_NAME, true);
         setSurveyMetadataDropDir();
@@ -259,6 +261,9 @@ public class ResponseSubmissionTest extends BaseResponseTest
         assertTrue("Submission failed, expected success", cmd.getSuccess());
         log("successful submission to " + STUDY_NAME03);
 
+        // Verify response was processed prior to deleting container as a Concurrency violation may occur
+        goToManageLists().getGrid().viewListHistory(SURVEY_NAME);
+        waitForText("A new list record was inserted");
         _containerHelper.deleteProject(PROJECT_NAME03, false);
 
         //        9. Check submission to deleted project
@@ -269,5 +274,14 @@ public class ResponseSubmissionTest extends BaseResponseTest
         cmd.execute(400);
         assertEquals("Unexpected error message", SubmitResponseCommand.NO_PARTICIPANT_MESSAGE, cmd.getExceptionMessage());
         checkExpectedErrors(1);
+    }
+
+    @Override
+    protected void doCleanup(boolean afterTest)
+    {
+        super.doCleanup(afterTest);
+
+        _containerHelper.deleteProject(PROJECT_NAME01, false);
+        _containerHelper.deleteProject(PROJECT_NAME02, false);
     }
 }

@@ -48,6 +48,8 @@ public class ResponseSubmissionTest extends BaseResponseTest
     @Override
     void setupProjects()
     {
+        doCleanup(false);
+
         setupProject(STUDY_NAME01, PROJECT_NAME01, SURVEY_NAME, false);
         setupProject(STUDY_NAME02, PROJECT_NAME02, SURVEY_NAME, true);
         setSurveyMetadataDropDir();
@@ -269,5 +271,14 @@ public class ResponseSubmissionTest extends BaseResponseTest
         cmd.execute(400);
         assertEquals("Unexpected error message", SubmitResponseCommand.NO_PARTICIPANT_MESSAGE, cmd.getExceptionMessage());
         checkExpectedErrors(1);
+    }
+
+    @Override
+    protected void doCleanup(boolean afterTest)
+    {
+        super.doCleanup(afterTest);
+
+        _containerHelper.deleteProject(PROJECT_NAME01, false);
+        _containerHelper.deleteProject(PROJECT_NAME02, false);
     }
 }

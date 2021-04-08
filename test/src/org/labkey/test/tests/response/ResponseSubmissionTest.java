@@ -261,9 +261,6 @@ public class ResponseSubmissionTest extends BaseResponseTest
         assertTrue("Submission failed, expected success", cmd.getSuccess());
         log("successful submission to " + STUDY_NAME03);
 
-        // Verify response was processed prior to deleting container as a Concurrency violation may occur
-        goToManageLists().getGrid().viewListHistory(SURVEY_NAME);
-        waitForText("A new list record was inserted");
         _containerHelper.deleteProject(PROJECT_NAME03, false);
 
         //        9. Check submission to deleted project

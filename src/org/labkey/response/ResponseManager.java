@@ -38,6 +38,7 @@ import org.labkey.api.data.SqlSelector;
 import org.labkey.api.data.Table;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.TableSelector;
+import org.labkey.api.exceptions.OptimisticConflictException;
 import org.labkey.api.exp.ObjectProperty;
 import org.labkey.api.exp.list.ListDefinition;
 import org.labkey.api.exp.list.ListItem;
@@ -841,7 +842,14 @@ public class ResponseManager
         if (user != null && !user.isGuest())
             response.setProcessedBy(user);
 
-        Table.update(user, responseTable, response, response.getRowId());
+        try
+        {
+            Table.update(user, responseTable, response, response.getRowId());
+        }
+        catch (OptimisticConflictException e)
+        {
+            //Ignore the error, we already deleted the survey response so we don't need to perform the update
+        }
     }
 
     public Set<Integer> getNonErrorResponses(Set<Integer> listIds)

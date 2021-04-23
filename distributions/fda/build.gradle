@@ -2,17 +2,6 @@ import org.labkey.gradle.task.ModuleDistribution
 import org.labkey.gradle.util.BuildUtils
 import org.labkey.gradle.util.GroupNames
 
-buildscript {
-    repositories {
-        maven {
-            url "${artifactory_contextUrl}/plugins-release"
-        }
-    }
-    dependencies {
-        classpath "org.labkey.build:gradlePlugins:${gradlePluginsVersion}"
-    }
-}
-
 plugins {
     id 'org.labkey.build.distribution'
 }

@@ -7,12 +7,8 @@ buildscript {
         maven {
             url "${artifactory_contextUrl}/plugins-release"
         }
-        if (gradlePluginsVersion.contains("SNAPSHOT"))
-        {
-            maven {
-                url "${artifactory_contextUrl}/plugins-snapshot-local"
-            }
-
+        maven {
+            url "${artifactory_contextUrl}/plugins-snapshot-local"
         }
     }
     configurations.all {
@@ -23,72 +19,51 @@ buildscript {
 }
 
 project.tasks.register('copyTagLibsBase') { }
+boolean standalone = (project.getParent() == null)
+if (!standalone) {
+    project.setProperty("labkeyVersion", project.getParent().property("labkeyVersion"))
+}
+
+apply plugin: 'org.labkey.module'
+if (standalone) {
+    apply plugin: 'java'
+    apply plugin: 'org.labkey.build.tomcat'
+    apply plugin: 'org.labkey.build.serverDeploy'
+}
 
 
-apply plugin: 'org.labkey.base'
-apply plugin: 'java'
-apply plugin: 'org.labkey.build.module'
-
-repositories {
-    // this if statement is necessary because the TeamCity artifactory plugin overrides
-    // the repositories but does not use these artifactory_ urls.  For others who are
-    // developing or building, you do need to specify the three artifactory_ properties
-    // used below.
-    if (project.hasProperty("artifactory_contextUrl"))
-    {
+if (standalone)
+{
+    repositories {
         maven {
             url "${artifactory_contextUrl}/ext-tools-local"
         }
         maven {
-
             url "${artifactory_contextUrl}/libs-release"
-
-            if (project.hasProperty('artifactory_user') && project.hasProperty('artifactory_password'))
-            {
-                credentials {
-                    username = artifactory_user
-                    password = artifactory_password
-                }
-                authentication {
-                    basic(BasicAuthentication) // enable preemptive authentication to get around https://www.jfrog.com/jira/browse/RTFACT-4434
-                }
-            }
         }
         maven {
             url "${artifactory_contextUrl}/libs-snapshot"
-
-            if (project.hasProperty('artifactory_user') && project.hasProperty('artifactory_password'))
-            {
-                credentials {
-                    username = artifactory_user
-                    password = artifactory_password
-                }
-                authentication {
-                    basic(BasicAuthentication) // enable preemptive authentication to get around https://www.jfrog.com/jira/browse/RTFACT-4434
-                }
-            }
         }
-    }
-    jcenter()
-}
-
-
-dependencies { 
-
-    modules ("org.labkey.module:api:${labkeyVersion}@module") {
-        transitive = true
-    }
-    modules ("org.labkey.module:internal:${labkeyVersion}@module") {
-        transitive = true
-    }
-    modules ("org.labkey.module:audit:${labkeyVersion}@module") {
-        transitive = true
-    }
-    modules ("org.labkey.module:core:${labkeyVersion}@module") {
-        transitive = true
+        jcenter()
     }
 
-    // include core API
-    implementation "org.labkey.api:core:${labkeyVersion}"
 
+    dependencies {
+
+        modules("org.labkey.module:api:${labkeyVersion}@module") {
+            transitive = true
+        }
+        modules("org.labkey.module:internal:${labkeyVersion}@module") {
+            transitive = true
+        }
+        modules("org.labkey.module:audit:${labkeyVersion}@module") {
+            transitive = true
+        }
+        modules("org.labkey.module:core:${labkeyVersion}@module") {
+            transitive = true
+        }
+
+        // include core API
+        implementation "org.labkey.api:core:${labkeyVersion}"
+    }
 }

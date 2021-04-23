@@ -28,8 +28,17 @@ buildscript {
     }
 }
 
+apply from: 'gradle/settings/parameters.gradle'
 
-// import org.labkey.gradle.util.BuildUtils
+import org.labkey.gradle.util.BuildUtils
+
+rootProject.name="MyStudies Response"
+
+if (new File(getRootDir(), BuildUtils.convertPathToRelativeDir(BuildUtils.getTestProjectPath(gradle))).exists())
+{
+    // Include test project even if test modules are excluded.
+    include BuildUtils.getTestProjectPath(gradle)
+}
 
 // TODO: Distribution plugin currently requires the ':server' project
-// include ':distributions:fda'
+//include ':distributions:fda'

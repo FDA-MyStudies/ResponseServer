@@ -32,18 +32,29 @@ if (standalone) {
 
 
 if (standalone) {
-    repositories {
-        maven {
-            url "${artifactory_contextUrl}/ext-tools-local"
+    allprojects {
+        repositories {
+            maven {
+                url "${artifactory_contextUrl}/ext-tools-local"
+            }
+            maven {
+                url "${artifactory_contextUrl}/libs-release"
+            }
+            maven {
+                url "${artifactory_contextUrl}/libs-snapshot"
+            }
+            jcenter()
         }
-        maven {
-            url "${artifactory_contextUrl}/libs-release"
-        }
-        maven {
-            url "${artifactory_contextUrl}/libs-snapshot"
-        }
-        jcenter()
     }
+
+    //TODO: Pull in bundled JAR
+    BuildUtils.addLabKeyDependency(project: project, config: 'tomcatJars', depProjectPath: BuildUtils.getBootstrapProjectPath(gradle)/*, depProjectConfig: 'runTimeElements'*/)
+
+    dependencies
+            {
+                tomcatJars  "com.sun.mail:jakarta.mail:1.6.5"
+                tomcatJars  "com.sun.activation:jakarta.activation:1.2.1" // JavaMail dependency (starting with Java 10), so it must be copied to <tomcat>/lib
+            }
 }
 
 dependencies {

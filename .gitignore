@@ -4,9 +4,10 @@
 hs_err_pid*
 
 # Gradle
-.gradle
+.gradle/
 
 # Generated Files
 build/
+dist/
 enlistment.properties
 .idea/

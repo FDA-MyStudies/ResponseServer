@@ -1,2 +1,3 @@
 gradle.ext.testProjectPath=":testAutomation"
+gradle.ext.serverProjectPath=":"
 gradle.ext.nodeBinProjectPath=":" // The npm and node executables downloaded into this project's build directory will be the target of the links created by the synlinkNode task

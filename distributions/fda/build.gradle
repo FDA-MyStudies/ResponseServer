@@ -15,7 +15,7 @@ BuildUtils.addModuleDistributionDependencies(project, [BuildUtils.getApiProjectP
                                                        BuildUtils.getPlatformModuleProjectPath(project.gradle, "list"),
                                                        BuildUtils.getPlatformModuleProjectPath(project.gradle, "pipeline"),
                                                        BuildUtils.getPlatformModuleProjectPath(project.gradle, "query"),
-                                                       ":server:modules:Response",
+//                                                       ":server:modules:Response",
                                                        BuildUtils.getPlatformModuleProjectPath(project.gradle, "visualization")])
 
 project.task(
@@ -26,5 +26,6 @@ project.task(
             dist.subDirName='response'
             dist.includeTarGZArchive=true
             dist.extraFileIdentifier='-response'
+            dist.simpleDistribution=true
         }
 )

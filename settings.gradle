@@ -32,7 +32,7 @@ apply from: 'gradle/settings/parameters.gradle'
 
 import org.labkey.gradle.util.BuildUtils
 
-rootProject.name="MyStudies Response"
+rootProject.name="Response"
 
 if (new File(getRootDir(), BuildUtils.convertPathToRelativeDir(BuildUtils.getTestProjectPath(gradle))).exists())
 {
@@ -40,5 +40,4 @@ if (new File(getRootDir(), BuildUtils.convertPathToRelativeDir(BuildUtils.getTes
     include BuildUtils.getTestProjectPath(gradle)
 }
 
-// TODO: Distribution plugin currently requires the ':server' project
-//include ':distributions:fda'
+include ':distributions:fda'

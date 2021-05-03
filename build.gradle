@@ -18,20 +18,27 @@ buildscript {
 
 }
 
-boolean standalone = (project.getParent() == null)
-if (!standalone) {
-    project.setProperty("labkeyVersion", project.getParent().property("labkeyVersion"))
+if (project.getParent() == null) {
+    project.setProperty("standaloneBuild", true)
+}
+if (!standaloneBuild) {
+    // Use properties from server project in standard build
+    for (String prop : project.getProperties().keySet()) {
+        if (project.parent.hasProperty(prop)) {
+            project.setProperty(prop, project.parent.property(prop))
+        }
+    }
 }
 
 apply plugin: 'java'
 apply plugin: 'org.labkey.build.module'
-if (standalone) {
+if (standaloneBuild) {
     apply plugin: 'org.labkey.build.tomcat'
     apply plugin: 'org.labkey.build.serverDeploy'
 }
 
 
-if (standalone) {
+if (standaloneBuild) {
     allprojects {
         repositories {
             maven {

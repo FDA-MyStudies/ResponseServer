@@ -18,25 +18,24 @@ buildscript {
 
 }
 
-if (project.getParent() == null) {
-    project.setProperty("standaloneBuild", true)
+plugins {
+    id 'java'
+    id 'org.labkey.build.module'
+    id 'org.labkey.build.tomcat' apply false
+    id 'org.labkey.build.serverDeploy' apply false
 }
-if (!standaloneBuild) {
-    // Use properties from server project in standard build
-    for (String prop : project.getProperties().keySet()) {
-        if (project.parent.hasProperty(prop)) {
-            project.setProperty(prop, project.parent.property(prop))
+
+apply plugin: StandaloneBuildPlugin
+
+class StandaloneBuildPlugin implements Plugin<Project> {
+
+    void apply(Project project) {
+        if (project.standaloneBuild) {
+            project.apply plugin: 'org.labkey.build.tomcat'
+            project.apply plugin: 'org.labkey.build.serverDeploy'
         }
     }
 }
-
-apply plugin: 'java'
-apply plugin: 'org.labkey.build.module'
-if (standaloneBuild) {
-    apply plugin: 'org.labkey.build.tomcat'
-    apply plugin: 'org.labkey.build.serverDeploy'
-}
-
 
 if (standaloneBuild) {
     allprojects {

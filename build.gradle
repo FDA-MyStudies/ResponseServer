@@ -4,6 +4,7 @@ import org.labkey.gradle.util.ModuleFinder
 
 buildscript {
     repositories {
+        mavenLocal()
         maven {
             url "${artifactory_contextUrl}/plugins-release"
         }
@@ -15,65 +16,8 @@ buildscript {
         // Check for updates every build for SNAPSHOT dependencies
         resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
     }
-
 }
 
 plugins {
-    id 'java'
-    id 'org.labkey.build.module'
-}
-
-apply plugin: StandaloneBuildPlugin
-
-class StandaloneBuildPlugin implements Plugin<Project> {
-
-    void apply(Project project) {
-        if (project.hasProperty("standaloneBuild") && project.standaloneBuild) {
-            project.apply plugin: 'org.labkey.build.tomcat'
-            project.apply plugin: 'org.labkey.build.serverDeploy'
-
-            project.allprojects {
-                repositories {
-                    maven {
-                        url "${artifactory_contextUrl}/ext-tools-local"
-                    }
-                    maven {
-                        url "${artifactory_contextUrl}/libs-release"
-                    }
-                    maven {
-                        url "${artifactory_contextUrl}/libs-snapshot"
-                    }
-                    jcenter()
-                }
-            }
-
-            //TODO: Pull in bundled JAR
-            BuildUtils.addLabKeyDependency(project: project, config: 'tomcatJars', depProjectPath: BuildUtils.getBootstrapProjectPath(project.gradle)/*, depProjectConfig: 'runTimeElements'*/)
-
-            project.dependencies
-                    {
-                        tomcatJars  "com.sun.mail:jakarta.mail:1.6.5"
-                        tomcatJars  "com.sun.activation:jakarta.activation:1.2.1" // JavaMail dependency (starting with Java 10), so it must be copied to <tomcat>/lib
-                    }
-        }
-    }
-}
-
-dependencies {
-
-    modules("org.labkey.module:api:${labkeyVersion}@module") {
-        transitive = true
-    }
-    modules("org.labkey.module:internal:${labkeyVersion}@module") {
-        transitive = true
-    }
-    modules("org.labkey.module:audit:${labkeyVersion}@module") {
-        transitive = true
-    }
-    modules("org.labkey.module:core:${labkeyVersion}@module") {
-        transitive = true
-    }
-
-    // include core API
-    implementation "org.labkey.api:core:${labkeyVersion}"
+    id 'org.labkey.build.standalone'
 }

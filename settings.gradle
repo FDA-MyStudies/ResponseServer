@@ -24,3 +24,7 @@ rootProject.name="Response"
 apply from: 'gradle/settings/parameters.gradle'
 
 include ':distributions:fda'
+
+if (gradle.hasProperty("standaloneBuild")) {
+    throw new GradleException("Please run Gradle with the provided init script ('-I init.gradle') to build outside of a standard LabKey enlistment")
+}

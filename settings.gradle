@@ -27,6 +27,8 @@ apply from: 'gradle/settings/parameters.gradle'
 
 include ':distributions:fda'
 
-if (!BuildUtils.isStandaloneBuild(rootProject)) {
-    throw new GradleException("Please run Gradle with the provided init script ('-I init.gradle') to build outside of a standard LabKey enlistment")
+gradle.beforeProject { project ->
+    if (!BuildUtils.isStandaloneBuild(project)) {
+        throw new GradleException("Please run Gradle with the provided init script ('-I init.gradle') to build outside of a standard LabKey enlistment")
+    }
 }

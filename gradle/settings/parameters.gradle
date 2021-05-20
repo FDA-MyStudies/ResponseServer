@@ -1,2 +1,1 @@
-gradle.ext.testProjectPath=":testAutomation"
 gradle.ext.serverProjectPath=":"

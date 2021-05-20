@@ -31,4 +31,18 @@ gradle.beforeProject { project ->
     if (!BuildUtils.isStandaloneBuild(project)) {
         throw new GradleException("Please run Gradle with the provided init script ('-I init.gradle') to build outside of a standard LabKey enlistment")
     }
+
+    project.repositories {
+        mavenLocal()
+        maven {
+            url "${project.artifactory_contextUrl}/ext-tools-local"
+        }
+        maven {
+            url "${project.artifactory_contextUrl}/libs-release"
+        }
+        maven {
+            url "${project.artifactory_contextUrl}/libs-snapshot"
+        }
+        mavenCentral()
+    }
 }

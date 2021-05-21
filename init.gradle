@@ -2,11 +2,6 @@ allprojects {
     // Properties for standalone build.
     // We define these here, instead of 'gradle.properties' to avoid overwriting properties in a standard build
     ext {
-        // The source and target versions of Java for compilation tasks
-        // @JavaRuntimeVersion
-        sourceCompatibility = 14
-        targetCompatibility = 14
-
         labkeyVersion = "21.3-SNAPSHOT"
 
         buildFromSource = true

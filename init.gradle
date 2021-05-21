@@ -11,7 +11,6 @@ allprojects {
 
         buildFromSource = true
 
-        // Automatically set to 'true'
         standaloneBuild = true
     }
 }

@@ -15,7 +15,7 @@ BuildUtils.addModuleDistributionDependencies(project, [BuildUtils.getApiProjectP
                                                        BuildUtils.getPlatformModuleProjectPath(project.gradle, "list"),
                                                        BuildUtils.getPlatformModuleProjectPath(project.gradle, "pipeline"),
                                                        BuildUtils.getPlatformModuleProjectPath(project.gradle, "query"),
-                                                       BuildUtils.isStandaloneBuild(project) ? ":" : ":server:modules:Response",
+                                                       project.parent.parent.getPath(), // Response module
                                                        BuildUtils.getPlatformModuleProjectPath(project.gradle, "visualization")])
 
 project.task(

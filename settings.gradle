@@ -19,8 +19,6 @@ buildscript {
     }
 }
 
-import org.labkey.gradle.util.BuildUtils
-
 rootProject.name="Response"
 
 apply from: 'gradle/settings/parameters.gradle'
@@ -28,12 +26,11 @@ apply from: 'gradle/settings/parameters.gradle'
 include ':distributions:fda'
 
 gradle.beforeProject { project ->
-    if (!BuildUtils.isStandaloneBuild(project)) {
+    if (!project.hasProperty("standaloneBuild")) {
         throw new GradleException("Please run Gradle with the provided init script ('-I init.gradle') to build outside of a standard LabKey enlistment")
     }
 
     project.repositories {
-        mavenLocal()
         maven {
             url "${project.artifactory_contextUrl}/ext-tools-local"
         }

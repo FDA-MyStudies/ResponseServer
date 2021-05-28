@@ -9,7 +9,25 @@ This custom module provides the Response Server functionality and services, incl
 - Limited querying of data by the mobile app
 - Providing web analytics, querying, reporting, and visualizations through manual and programmatic methods
 
-This module must be deployed within the LabKey Server platform (version 21.3.x). To build a standalone distribution of the Response Server (i.e., a standard LabKey Server distribution plus the mobileAppStudy module), follow these steps:
+## Evaluation Setup Instructions
+
+This module can be used to create a standalone distribution of the MyStudies Response Server.
+_(The following commands and paths are relative to your `Response` enlistment)_
+
+1. Install JDK 14+
+   - [AdoptOpenJDK](https://adoptopenjdk.net/releases.html?variant=openjdk14&jvmVariant=hotspot)
+   - Your `JAVA_HOME` environment variable should point at a compatible JDK install
+1. Create 'Response' LabKey distribution
+   - (Linux/MacOS) `./gradlew -I init.gradle -PdeployMode=prod :distributions:fda:distribution`
+   - (Windows) `.\gradlew -I init.gradle -PdeployMode=prod :distributions:fda:distribution`
+1. Locate distribution archive
+   - (Linux/MacOS) `dist/response/LabKey*-response.tar.gz`
+   - (Windows) `dist\response\LabKey*-response.tar.gz`
+1. Follow [instructions for manual deployment](https://www.labkey.org/Documentation/wiki-page.view?name=manualInstall) of the distribution archive
+
+## Developer Setup Instructions
+
+This module can be developed within the LabKey Server platform (version 21.3.x). To setup a development environment for the Response Server (i.e. a standard LabKey Server distribution plus the Response module), follow these steps:
 
 1. Checkout the LabKey Server 21.3.x public GitHub repositories: [Set Up a Development Machine](https://www.labkey.org/Documentation/wiki-page.view?name=devMachine)
 
@@ -30,4 +48,4 @@ This module must be deployed within the LabKey Server platform (version 21.3.x).
     gradlew :server:modules:Response:distributions:fda:dist
     ```
 
-1. Look in the directory "dist/response" for a file whose name ends with "response-bin.tar.gz". Install this distribution using the [Install LabKey Manually](https://www.labkey.org/Documentation/wiki-page.view?name=manualInstall) instructions.
+1. [Build and deploy LabKey](https://www.labkey.org/Documentation/wiki-page.view?name=buildLabKey) with the Response module.

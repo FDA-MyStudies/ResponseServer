@@ -41,5 +41,6 @@ gradle.beforeProject { project ->
             url "${project.artifactory_contextUrl}/libs-snapshot"
         }
         mavenCentral()
+        mavenLocal()
     }
 }

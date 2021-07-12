@@ -75,18 +75,9 @@
 %>
 
 
-<labkey:errors/>
+<labkey:errors/><br/>
 
 <labkey:form name="ServerConfigurationForm" action="<%=new ActionURL(ResponseController.ServerConfigurationAction.class, getContainer())%>" method="POST">
-
-    <div class="response-server-radio-section">
-        <labkey:radio  name="metadataLoadLocation" value="file" currentValue="<%=metadataLoadLocation%>" /> Load metadata from files (used for local testing) <br>
-        <div class="response-server-input-row">
-            <label class="response-server-text-label response-server-metadata-directory"> Metadata Directory <%=helpPopup("Metadata Directory", metadataDirectoryHelpText, true, 300)%> </label>
-            <labkey:input type="text" className="response-server-text-input" name="metadataDirectory" id="metadataDirectory" value="<%=metadataDirectory%>" />
-        </div>
-    </div>
-
 
     <div class="response-server-radio-section">
         <labkey:radio  name="metadataLoadLocation" value="wcpServer" currentValue="<%=metadataLoadLocation%>" /> Load metadata from WCP server (used for deployments) <br>
@@ -98,6 +89,14 @@
         <div class="response-server-input-row">
             <label class="control-label response-server-wcp-base-url"> WCP Access Token <%=helpPopup("WCP Access Token", wcpAccessTokenHelpText, true, 300)%> </label>
             <labkey:input type="text" className="response-server-text-input" name="wcpAccessToken" id="wcpAccessToken" value="<%=wcpAccessToken%>" />
+        </div>
+    </div>
+
+    <div class="response-server-radio-section">
+        <labkey:radio  name="metadataLoadLocation" value="file" currentValue="<%=metadataLoadLocation%>" /> Load metadata from files (used for local testing) <br>
+        <div class="response-server-input-row">
+            <label class="response-server-text-label response-server-metadata-directory"> Metadata Directory <%=helpPopup("Metadata Directory", metadataDirectoryHelpText, true, 300)%> </label>
+            <labkey:input type="text" className="response-server-text-input" name="metadataDirectory" id="metadataDirectory" value="<%=metadataDirectory%>" />
         </div>
     </div>
 

@@ -1223,7 +1223,6 @@ public class ResponseController extends SpringActionController
         public static final String FILE = "file";
         public static final String WCP_SERVER = "wcpServer";
 
-
         @Override
         public ModelAndView getView(ServerConfigurationForm form, boolean reshow, BindException errors) throws Exception
         {
@@ -1235,20 +1234,17 @@ public class ResponseController extends SpringActionController
         @Override
         public boolean handlePost(ServerConfigurationForm form, BindException errors) throws Exception
         {
-            if (form.getMetadataDirectory() != null && form.getMetadataDirectory().equals(FILE)) // Rosaline todo make into constants
+            if (form.getMetadataLoadLocation() != null && form.getMetadataLoadLocation().equals(FILE))
             {
                 // Rosaline todo: check metadataloadlocation is a valid path
             }
-            else if (form.getMetadataDirectory() != null && form.getMetadataDirectory().equals(WCP_SERVER))
+            else if (form.getMetadataLoadLocation() != null && form.getMetadataLoadLocation().equals(WCP_SERVER))
             {
                 if (form.getWcpAccessToken().isBlank())
                     errors.addError(new LabKeyError("WCP Access Token must not be blank"));
 
-                if (form.getWcpBaseURL().matches("^(http|https).*$"))
+                if (form.getWcpBaseURL().toUpperCase().matches("^(HTTP|HTTPS)://.*$"))
                     errors.addError(new LabKeyError("WCP Base URL must begin with 'http' or 'https'"));
-
-                if (form.getWcpBaseURL().endsWith("?"))
-                    errors.addError(new LabKeyError("WCP Base URL must not end with a question mark"));
 
                 if (!form.getWcpBaseURL().endsWith("/StudyMetaData"))
                     errors.addError(new LabKeyError("WCP Base URL must end with '/StudyMetaData'"));
@@ -1275,7 +1271,7 @@ public class ResponseController extends SpringActionController
         @Override
         public URLHelper getSuccessURL(ServerConfigurationForm serverConfigurationForm)
         {
-            return null;
+            return urlProvider(AdminUrls.class).getAdminConsoleURL();
         }
 
         @Override

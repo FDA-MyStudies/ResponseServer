@@ -1,13 +1,13 @@
 <%@ page import="org.labkey.api.admin.AdminUrls" %>
-<%@ page import="org.labkey.api.data.Container" %>
 <%@ page import="org.labkey.api.data.PropertyManager" %>
-<%@ page import="org.labkey.api.security.permissions.AdminOperationsPermission" %>
 <%@ page import="org.labkey.response.ResponseController" %>
-<%@ page import="org.labkey.api.view.HttpView" %>
-<%@ page import="org.labkey.api.view.JspView" %>
 <%@ page import="org.labkey.api.view.ActionURL" %>
-<%@ page
-        import="static org.labkey.response.ResponseController.ServerConfigurationAction.RESPONSE_SERVER_CONFIGURATION" %>
+<%@ page import="static org.labkey.response.ResponseController.ServerConfigurationAction.RESPONSE_SERVER_CONFIGURATION" %>
+<%@ page import="static org.labkey.response.ResponseController.ServerConfigurationAction.METADATA_DIRECTORY" %>
+<%@ page import="static org.labkey.response.ResponseController.ServerConfigurationAction.METADATA_LOAD_LOCATION" %>
+<%@ page import="static org.labkey.response.ResponseController.ServerConfigurationAction.WCP_BASE_URL" %>
+<%@ page import="static org.labkey.response.ResponseController.ServerConfigurationAction.WCP_USERNAME" %>
+<%@ page import="static org.labkey.response.ResponseController.ServerConfigurationAction.WCP_PASSWORD" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 <%@ taglib prefix="labkey" uri="http://www.labkey.org/taglib" %>
 
@@ -55,23 +55,16 @@
 </style>
 
 <%
-    JspView<ResponseController.ServerConfigurationForm> me = (JspView<ResponseController.ServerConfigurationForm>) HttpView.currentView();
-    ResponseController.ServerConfigurationForm bean = me.getModelBean();
+    PropertyManager.PropertyMap props = PropertyManager.getEncryptedStore().getProperties(getContainer(), RESPONSE_SERVER_CONFIGURATION);
 
-    PropertyManager.PropertyMap props = PropertyManager.getProperties(getContainer(), RESPONSE_SERVER_CONFIGURATION);
-    String metadataLoadLocation = props.get("metadataLoadLocation");
-    String metadataDirectory = props.get("metadataDirectory");
-    String wcpBaseURL = props.get("wcpBaseURL");
-    String wcpAccessToken = props.get("wcpAccessToken");
+    String metadataLoadLocation = props.get(METADATA_LOAD_LOCATION);
+    String metadataDirectory = props.get(METADATA_DIRECTORY);
+    String wcpBaseURL = props.get(WCP_BASE_URL);
+    String wcpUsername = props.get(WCP_USERNAME);
+    String wcpPassword = props.get(WCP_PASSWORD);
 
-
-    String id = "d";
-    String value = "";
     String metadataDirectoryHelpText = "The directory on the server that holds the survey design metadata files. For use in testing or when the metadata service is not available.";
     String wcpBaseURLHelpText = "The base URL for the Activity Metadata service. Should be an absolute URL that ends with /StudyMetaData; see example below. Note that this URL must NOT end with a question mark.";
-    String wcpAccessTokenHelpText = "App token to be passed in request headers to the Activity Metadata Service to identify this client.";
-
-    boolean disabled = true;
 %>
 
 
@@ -87,8 +80,13 @@
         </div>
 
         <div class="response-server-input-row">
-            <label class="control-label response-server-wcp-base-url"> WCP Access Token <%=helpPopup("WCP Access Token", wcpAccessTokenHelpText, true, 300)%> </label>
-            <labkey:input type="text" className="response-server-text-input" name="wcpAccessToken" id="wcpAccessToken" value="<%=wcpAccessToken%>" />
+            <label class="control-label response-server-wcp-base-url"> Username </label>
+            <labkey:input type="text" className="response-server-text-input" name="wcpUsername" id="wcpUsername" value="<%=wcpUsername%>" />
+        </div>
+
+        <div class="response-server-input-row">
+            <label class="control-label response-server-wcp-base-url"> Password </label>
+            <labkey:input type="password" className="response-server-text-input" name="wcpPassword" id="wcpPassword" value="<%=wcpPassword%>" />
         </div>
     </div>
 
@@ -113,7 +111,8 @@
         const toggleTextInputDisabled = (toggle) => {
             $('#metadataDirectory').prop('disabled', !toggle);
             $('#wcpBaseURL').prop('disabled', toggle);
-            $('#wcpAccessToken').prop('disabled', toggle);
+            $('#wcpUsername').prop('disabled', toggle);
+            $('#wcpPassword').prop('disabled', toggle);
         };
 
         const toggleDisabledBasedOnSelection = () => {

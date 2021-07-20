@@ -1219,9 +1219,15 @@ public class ResponseController extends SpringActionController
     @RequiresPermission(SiteAdminPermission.class)
     public class ServerConfigurationAction extends FormViewAction<ServerConfigurationForm>
     {
-        public static final String RESPONSE_SERVER_CONFIGURATION = "ResponseServerConfiguration";
+        public static final String RESPONSE_SERVER_CONFIGURATION = "ResponseServerConfig";
         public static final String FILE = "file";
         public static final String WCP_SERVER = "wcpServer";
+
+        public static final String  METADATA_LOAD_LOCATION = "metadataLoadLocation";
+        public static final String METADATA_DIRECTORY = "metadataDirectory";
+        public static final String WCP_BASE_URL = "wcpBaseURL";
+        public static final String WCP_USERNAME = "wcpUsername";
+        public static final String WCP_PASSWORD = "wcpPassword";
 
         @Override
         public ModelAndView getView(ServerConfigurationForm form, boolean reshow, BindException errors) throws Exception
@@ -1240,13 +1246,16 @@ public class ResponseController extends SpringActionController
             }
             else if (form.getMetadataLoadLocation() != null && form.getMetadataLoadLocation().equals(WCP_SERVER))
             {
-                if (form.getWcpAccessToken().isBlank())
-                    errors.addError(new LabKeyError("WCP Access Token must not be blank"));
+                if (form.getWcpUsername() == null || form.getWcpUsername().isBlank())
+                    errors.addError(new LabKeyError("WCP username must not be blank"));
 
-                if (form.getWcpBaseURL().toUpperCase().matches("^(HTTP|HTTPS)://.*$"))
-                    errors.addError(new LabKeyError("WCP Base URL must begin with 'http' or 'https'"));
+                if (form.getWcpPassword() == null || form.getWcpPassword().isBlank())
+                    errors.addError(new LabKeyError("WCP password must not be blank"));
 
-                if (!form.getWcpBaseURL().endsWith("/StudyMetaData"))
+                if (form.getWcpBaseURL() == null || !form.getWcpBaseURL().toUpperCase().matches("^(HTTP|HTTPS)://.*$"))
+                    errors.addError(new LabKeyError("WCP Base URL must begin with 'http://' or 'https://'"));
+
+                if (form.getWcpBaseURL() == null || !form.getWcpBaseURL().toUpperCase().endsWith("/STUDYMETADATA"))
                     errors.addError(new LabKeyError("WCP Base URL must end with '/StudyMetaData'"));
             }
 
@@ -1254,7 +1263,7 @@ public class ResponseController extends SpringActionController
                 return false;
             else
             {
-                PropertyManager.PropertyMap props = PropertyManager.getWritableProperties(getContainer(), RESPONSE_SERVER_CONFIGURATION, true);
+                PropertyManager.PropertyMap props = PropertyManager.getEncryptedStore().getWritableProperties(getContainer(), RESPONSE_SERVER_CONFIGURATION, true);
                 Map<String, String> valuesToPersist = form.getOptions();
 
                 if (!valuesToPersist.isEmpty())
@@ -1292,7 +1301,8 @@ public class ResponseController extends SpringActionController
     {
         private String _metadataDirectory;
         private String _wcpBaseURL;
-        private String _wcpAccessToken;
+        private String _wcpUsername;
+        private String _wcpPassword;
         private String _metadataLoadLocation;
 
         public String getMetadataDirectory()
@@ -1315,14 +1325,24 @@ public class ResponseController extends SpringActionController
             _wcpBaseURL = wcpBaseURL;
         }
 
-        public String getWcpAccessToken()
+        public String getWcpUsername()
         {
-            return _wcpAccessToken;
+            return _wcpUsername;
         }
 
-        public void setWcpAccessToken(String wcpAccessToken)
+        public void setWcpUsername(String wcpUsername)
         {
-            _wcpAccessToken = wcpAccessToken;
+            _wcpUsername = wcpUsername;
+        }
+
+        public String getWcpPassword()
+        {
+            return _wcpPassword;
+        }
+
+        public void setWcpPassword(String wcpPassword)
+        {
+            _wcpPassword = wcpPassword;
         }
 
         public String getMetadataLoadLocation()
@@ -1339,16 +1359,17 @@ public class ResponseController extends SpringActionController
         {
             Map<String, String> valueMap = new HashMap<>();
 
-            valueMap.put("metadataLoadLocation", _metadataLoadLocation);
+            valueMap.put(ServerConfigurationAction.METADATA_LOAD_LOCATION, _metadataLoadLocation);
 
             if (_metadataLoadLocation.equals(FILE))
             {
-                valueMap.put("metadataDirectory", _metadataDirectory);
+                valueMap.put(ServerConfigurationAction.METADATA_DIRECTORY, _metadataDirectory);
             }
             else if (_metadataLoadLocation.equals(WCP_SERVER))
             {
-                valueMap.put("wcpBaseURL", _wcpBaseURL);
-                valueMap.put("wcpAccessToken", _wcpAccessToken);
+                valueMap.put(ServerConfigurationAction.WCP_BASE_URL, _wcpBaseURL);
+                valueMap.put(ServerConfigurationAction.WCP_USERNAME, _wcpUsername);
+                valueMap.put(ServerConfigurationAction.WCP_PASSWORD, _wcpPassword);
             }
 
             return valueMap;

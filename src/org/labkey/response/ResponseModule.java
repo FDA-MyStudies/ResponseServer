@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
+import org.labkey.api.data.UpgradeCode;
 import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.module.ModuleProperty;
@@ -74,6 +75,12 @@ public class ResponseModule extends DefaultModule
     }
 
     @Override
+    public @Nullable UpgradeCode getUpgradeCode()
+    {
+        return new ResponseUpgradeCode();
+    }
+
+    @Override
     @NotNull
     protected Collection<WebPartFactory> createWebPartFactories()
     {
@@ -118,7 +125,7 @@ public class ResponseModule extends DefaultModule
         this.addModuleProperty(metadataServiceAccessToken);
 
         ActionURL serverConfigurationURL = new ActionURL(ResponseController.ServerConfigurationAction.class, ContainerManager.getRoot());
-        AdminConsole.addLink(AdminConsole.SettingsLinkType.Configuration, "Response Server Configuration", serverConfigurationURL, SiteAdminPermission.class);
+        AdminConsole.addLink(AdminConsole.SettingsLinkType.Configuration, "Response Server Configuration", serverConfigurationURL, ApplicationAdminPermission.class);
         FolderManagement.addTab(FolderManagement.TYPE.FolderManagement, "Response Forwarding", "forwarding",
                 IS_ACTIVE, ResponseController.ForwardingSettingsAction.class);
 

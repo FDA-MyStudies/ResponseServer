@@ -65,7 +65,7 @@ public class ResponseModule extends DefaultModule
     @Override
     public @Nullable Double getSchemaVersion()
     {
-        return 21.002;
+        return 21.001;
     }
 
     @Override

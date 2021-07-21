@@ -64,7 +64,9 @@
     String wcpPassword = props.get(WCP_PASSWORD);
 
     String metadataDirectoryHelpText = "The directory on the server that holds the survey design metadata files. For use in testing or when the metadata service is not available.";
-    String wcpBaseURLHelpText = "The base URL for the Activity Metadata service. Should be an absolute URL that ends with /StudyMetaData; see example below. Note that this URL must NOT end with a question mark.";
+    String wcpBaseURLHelpText = "The base URL for the Activity Metadata service. Should be an absolute URL that ends with /StudyMetaData. Note that this URL must NOT end with a question mark.";
+    String wcpUsernameHelpText = "Username on the WCP server.";
+    String wcpPasswordHelpText = "Password for that username on the WCP server.";
 %>
 
 
@@ -80,12 +82,12 @@
         </div>
 
         <div class="response-server-input-row">
-            <label class="control-label response-server-wcp-base-url"> Username * </label>
+            <label class="control-label response-server-wcp-base-url"> Username * <%=helpPopup("Username", wcpUsernameHelpText, true, 300)%> </label>
             <labkey:input type="text" className="response-server-text-input" name="wcpUsername" id="wcpUsername" value="<%=wcpUsername%>" />
         </div>
 
         <div class="response-server-input-row">
-            <label class="control-label response-server-wcp-base-url"> Password * </label>
+            <label class="control-label response-server-wcp-base-url"> Password * <%=helpPopup("Password", wcpPasswordHelpText, true, 300)%> </label>
             <labkey:input type="password" className="response-server-text-input" name="wcpPassword" id="wcpPassword" value="<%=wcpPassword%>" />
         </div>
     </div>

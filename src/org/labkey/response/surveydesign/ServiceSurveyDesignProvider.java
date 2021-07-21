@@ -18,13 +18,15 @@ package org.labkey.response.surveydesign;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.logging.log4j.Logger;
 import org.labkey.api.data.Container;
 import org.labkey.api.module.Module;
@@ -74,7 +76,8 @@ public class ServiceSurveyDesignProvider extends AbstractSurveyDesignProviderImp
     private <DESIGN> DESIGN getDesign(Container c, URIBuilder uriBuilder, Function<String, DESIGN> designProcessor) throws Exception
     {
         URI uri = uriBuilder.build();
-        try (CloseableHttpClient httpclient = HttpClients.createDefault())
+        CredentialsProvider provider = new BasicCredentialsProvider();
+        try (CloseableHttpClient httpclient = HttpClientBuilder.create().setDefaultCredentialsProvider(provider).build())
         {
             HttpGet httpGet = new HttpGet(uri);
             httpGet.addHeader("Authorization", "Basic " + getServiceToken(c));

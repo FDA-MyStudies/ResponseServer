@@ -75,17 +75,17 @@
     <div class="response-server-radio-section">
         <labkey:radio  name="metadataLoadLocation" value="wcpServer" currentValue="<%=metadataLoadLocation%>" /> Load metadata from WCP server (used for deployments) <br>
         <div class="response-server-input-row">
-            <label class="response-server-text-label response-server-wcp-base-url"> WCP Base URL <%=helpPopup("WCP Base URL", wcpBaseURLHelpText, true, 300)%> </label>
+            <label class="response-server-text-label response-server-wcp-base-url"> WCP Base URL * <%=helpPopup("WCP Base URL", wcpBaseURLHelpText, true, 300)%> </label>
             <labkey:input type="text" className="response-server-text-input" name="wcpBaseURL" id="wcpBaseURL" value="<%=wcpBaseURL%>" />
         </div>
 
         <div class="response-server-input-row">
-            <label class="control-label response-server-wcp-base-url"> Username </label>
+            <label class="control-label response-server-wcp-base-url"> Username * </label>
             <labkey:input type="text" className="response-server-text-input" name="wcpUsername" id="wcpUsername" value="<%=wcpUsername%>" />
         </div>
 
         <div class="response-server-input-row">
-            <label class="control-label response-server-wcp-base-url"> Password </label>
+            <label class="control-label response-server-wcp-base-url"> Password * </label>
             <labkey:input type="password" className="response-server-text-input" name="wcpPassword" id="wcpPassword" value="<%=wcpPassword%>" />
         </div>
     </div>
@@ -93,7 +93,7 @@
     <div class="response-server-radio-section">
         <labkey:radio  name="metadataLoadLocation" value="file" currentValue="<%=metadataLoadLocation%>" /> Load metadata from files (used for local testing) <br>
         <div class="response-server-input-row">
-            <label class="response-server-text-label response-server-metadata-directory"> Metadata Directory <%=helpPopup("Metadata Directory", metadataDirectoryHelpText, true, 300)%> </label>
+            <label class="response-server-text-label response-server-metadata-directory"> Metadata Directory * <%=helpPopup("Metadata Directory", metadataDirectoryHelpText, true, 300)%> </label>
             <labkey:input type="text" className="response-server-text-input" name="metadataDirectory" id="metadataDirectory" value="<%=metadataDirectory%>" />
         </div>
     </div>

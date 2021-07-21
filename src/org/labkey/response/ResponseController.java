@@ -90,6 +90,8 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -1240,9 +1242,9 @@ public class ResponseController extends SpringActionController
         @Override
         public boolean handlePost(ServerConfigurationForm form, BindException errors) throws Exception
         {
-            if (form.getMetadataLoadLocation() != null && form.getMetadataLoadLocation().equals(FILE))
+            if (form.getMetadataLoadLocation() != null && form.getMetadataLoadLocation().equals(FILE) && !Files.exists(Paths.get(form.getMetadataDirectory())))
             {
-                // Rosaline todo: check metadataloadlocation is a valid path
+                errors.addError(new LabKeyError("Metadata Directory path is invalid"));
             }
             else if (form.getMetadataLoadLocation() != null && form.getMetadataLoadLocation().equals(WCP_SERVER))
             {
@@ -1255,7 +1257,7 @@ public class ResponseController extends SpringActionController
                 if (form.getWcpBaseURL() == null || !form.getWcpBaseURL().toUpperCase().matches("^(HTTP|HTTPS)://.*$"))
                     errors.addError(new LabKeyError("WCP Base URL must begin with 'http://' or 'https://'"));
 
-                if (form.getWcpBaseURL() == null || !form.getWcpBaseURL().toUpperCase().endsWith("/STUDYMETADATA"))
+                if (form.getWcpBaseURL() == null || !form.getWcpBaseURL().endsWith("/StudyMetaData"))
                     errors.addError(new LabKeyError("WCP Base URL must end with '/StudyMetaData'"));
             }
 

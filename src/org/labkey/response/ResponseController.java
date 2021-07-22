@@ -959,6 +959,34 @@ public class ResponseController extends SpringActionController
     }
 
     @RequiresPermission(AdminPermission.class)
+    public static class ResponseServerAction extends FolderManagementViewPostAction<MyStudiesRespServerForm>
+    {
+
+        @Override
+        public void validateCommand(MyStudiesRespServerForm form, Errors errors)
+        {
+
+        }
+
+        @Override
+        public boolean handlePost(MyStudiesRespServerForm form, BindException errors) throws Exception
+        {
+            return false;
+        }
+
+        @Override
+        protected HttpView getTabView(MyStudiesRespServerForm form, boolean reshow, BindException errors) throws Exception
+        {
+            return new JspView<>("/org/labkey/response/view/forwarderSettings.jsp", form, errors);
+        }
+    }
+
+    public static class MyStudiesRespServerForm
+    {
+
+    }
+
+    @RequiresPermission(AdminPermission.class)
     public static class ForwardingSettingsAction extends FolderManagementViewPostAction<ForwardingSettingsForm>
     {
         @Override

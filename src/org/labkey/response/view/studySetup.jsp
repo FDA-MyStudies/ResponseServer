@@ -60,6 +60,10 @@
 <labkey:errors></labkey:errors>
 <div id="<%= h(renderId)%>" class="requests-editor"></div>
 
+Response Server Site Settings are not configured. Click here to configure them.
+
+Study Configuration
+
 <script type="text/javascript">
     Ext4.onReady(function(){
 
